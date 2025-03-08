@@ -24,6 +24,7 @@ model User {
   bookmarks     Bookmark[]
   followers     Follower[] @relation("FollowedUsers")
   following     Follower[] @relation("FollowingUsers")
+  
 
   // categories Categories[]
   // @relation("Categories")
