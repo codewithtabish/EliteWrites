@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -12,12 +12,12 @@ export async function POST(req: NextRequest) {
             const { id, email, given_name, family_name } = data;
 
             // Save the user in your database
-            await db.user.create({
+            await prisma.user.create({
                 data: {
                     id,
                     email,
                     name:given_name,
-                    
+
                 },
             });
 
