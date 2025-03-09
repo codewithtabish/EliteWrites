@@ -16,6 +16,8 @@ model User {
   bio           String?  
   isPremium     Boolean         @default(false)  
   earnings      Float?          @default(0.0) // Earnings in USD  
+  onBoardingScreen Boolean @default(false)
+  categories   String[]
 
   blogs         BlogPost[]
   comments      Comment[]
