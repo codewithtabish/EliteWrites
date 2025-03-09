@@ -19,12 +19,16 @@ import {
 import RichTextEditor from "./text-editor";
 import Example from "./blog-tags";
 import BlogCategoryBox from "./blog-categories-box";
+import BlogPreviewDialouge from "./blog-preview";
+import { Eye } from "lucide-react";
 
 const BlogSubmissionForm = () => {
   const [submissionState, setSubmissionState] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [submittedData, setSubmittedData] = useState<BlogData | null>(null);
+  const [previewData, setpreviewData] = useState<any>();
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   
   const form = useForm<BlogData>({
     resolver: zodResolver(blogSchema),
@@ -53,6 +57,11 @@ const BlogSubmissionForm = () => {
   useEffect(() => {
     console.log("Submission State:", submissionState);
   }, [submissionState]);
+
+  const openPrviewAndSetData=()=>{
+    setIsPreviewOpen(true);
+    setpreviewData(form.getValues());
+  }
 
   return (
     <Card className="bg border-none md:max-w-3xl mx-auto">
@@ -136,12 +145,21 @@ const BlogSubmissionForm = () => {
             />
 
 
+
+
         
+        <div className="w-full relative">
+
 
             <Button type="submit" variant={'outline'} className="w-full text-white p-6 my-5 cursor-pointer hover:text-white" disabled={submissionState === "loading"}>
               {submissionState === "loading" ? "Submitting..." : "Create"}
             </Button>
+           
+        </div>
           </form>
+       
+
+
         </Form>
 {/* 
         {submissionState === "success" && submittedData && (
@@ -158,7 +176,18 @@ const BlogSubmissionForm = () => {
             <p>Please try again later.</p>
           </div>
         )}
+       
       </CardContent>
+      <div className="absolute bottom-0 right-5">
+
+
+<BlogPreviewDialouge previewData={previewData}>
+<p className="text-white" onClick={openPrviewAndSetData}>
+<Eye className="w-6 h-6"/>
+</p>
+
+</BlogPreviewDialouge>
+</div>
     </Card>
   );
 };

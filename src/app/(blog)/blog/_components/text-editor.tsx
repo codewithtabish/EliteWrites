@@ -16,6 +16,7 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Paragraph from "@tiptap/extension-paragraph";
 import Code from "@tiptap/extension-code";
+import Color from "@tiptap/extension-color";
 import sanitizeHtml from "sanitize-html";
 
 export default function RichTextEditor({ content, onChange }: { content: string; onChange: (content: string) => void }) {
@@ -29,6 +30,7 @@ export default function RichTextEditor({ content, onChange }: { content: string;
       Highlight,
       Image,
       ImageResize,
+      Color, // Added Color extension
       Blockquote,
       CodeBlock,
       Underline,
@@ -46,22 +48,23 @@ export default function RichTextEditor({ content, onChange }: { content: string;
     content: content,
     editorProps: {
       attributes: {
-        class: "min-h-[156px] border rounded-md bg-[#020817] text-white py-2 px-3 border-[1px] border-gray-600 hover:border-gray-600 hover:border-[1px]",
+        class: "min-h-screen w-full overflow-hidden border rounded-md bg-[#020817] text-white py-2 px-3 border-[1px] border-gray-600 hover:border-gray-600 hover:border-[1px]",
       },
     },
     onUpdate: ({ editor }) => {
       let rawHtml = editor.getHTML();
 
-      // Ensure all text is properly wrapped in paragraphs
+      // Ensure all text is wrapped in paragraphs if needed
       if (!rawHtml.startsWith("<p>") && !rawHtml.startsWith("<h1>") && !rawHtml.startsWith("<h2>") && !rawHtml.startsWith("<h3>")) {
         rawHtml = `<p>${rawHtml}</p>`;
       }
 
       const cleanHtml = sanitizeHtml(rawHtml, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["h1", "h2", "h3"]),
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["h1", "h2", "h3", "span", "img"]),
         allowedAttributes: {
           a: ["href", "target", "rel", "class"],
-          img: ["src", "alt", "width", "height"],
+          img: ["src", "alt", "width", "height", "style"], // Ensure image attributes are allowed
+          span: ["style"], // Allow color styling in spans
           p: [],
           h1: [],
           h2: [],
@@ -74,9 +77,9 @@ export default function RichTextEditor({ content, onChange }: { content: string;
   });
 
   return (
-    <div>
+    <div className="">
       <ToolBar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className="min-h-1.5" />
     </div>
   );
 }
