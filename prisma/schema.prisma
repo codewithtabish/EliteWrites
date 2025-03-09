@@ -16,6 +16,7 @@ model User {
   bio           String?  
   isPremium     Boolean         @default(false)  
   earnings      Float?          @default(0.0) // Earnings in USD  
+  
 
   blogs         BlogPost[]
   comments      Comment[]
@@ -44,7 +45,7 @@ model BlogPost {
   tags       String[]
   isPremium  Boolean  @default(false)  
   earning    Float?   @default(0.0) // Earnings for this blog  
-  views      Int      @default(0) // Track total unique views  
+  views       Int?      @default(0) // Track total unique views  
 
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String
