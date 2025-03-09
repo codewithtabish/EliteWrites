@@ -76,7 +76,8 @@ const BlogSubmissionForm = () => {
                 <FormItem>
                   <FormLabel>Blog Title</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Enter blog title" />
+                    <Input {...field} placeholder="Enter blog title"
+                    className='text-white p-6 border-[1px] border-gray-600' />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -92,6 +93,7 @@ const BlogSubmissionForm = () => {
                   <FormLabel>Content</FormLabel>
                   <FormControl>
                     <RichTextEditor
+
                       content={field.value}
                       onChange={(value: any) => {
                         console.log('Content updated:', value) // Debugging

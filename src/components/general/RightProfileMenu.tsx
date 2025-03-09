@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NotebookIcon, NotebookPen } from "lucide-react";
+import Link from "next/link";
 
 const RightProfileMenu = async () => {
   const user: User | null = await checkUserAndSaveInDB();
@@ -32,9 +33,12 @@ const RightProfileMenu = async () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48 bg-[#020817]">
+            <Link href={'/blog/create'}>
+
             <DropdownMenuItem className="text-gray-400 hover:text-white hover:bg-transparent focus:bg-transparent transition-all duration-300 ease-in-out cursor-pointer">
-              Your Profile
+              create Blog
             </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem className="text-gray-400 hover:text-white hover:bg-transparent focus:bg-transparent transition-all duration-300 ease-in-out cursor-pointer">
               Settings
             </DropdownMenuItem>
