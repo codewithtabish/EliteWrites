@@ -1,12 +1,22 @@
 import React from 'react'
+import OnBoardingForm from './_components/onboarding-form'
+import { User } from '@prisma/client'
+import { checkUserAndSaveInDB } from '@/utils/user'
+import { redirect } from 'next/navigation'
+import ShowToast from '@/components/general/show-toast'
 
-const OnBoardingPage = () => {
+const OnBoardingPage = async() => {
+    const user:User|null=await checkUserAndSaveInDB()
+    if(user?.email && user?.onBoardingScreen){
+      <ShowToast text='your onboarding screen is completed'/>
+      // toast.warning("please complete your onboarding screen")
+      return redirect("/dashboard")
+    }
   return (
-    <div className='container mx-auto py-12'>
-        THIS IS ONBOARDING PAGE
-
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id iste assumenda esse ea magnam quae sunt maxime aut! Ducimus iusto possimus velit at dignissimos dolore impedit ipsam nobis quasi repellendus!
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id iste assumenda esse ea magnam quae sunt maxime aut! Ducimus iusto possimus velit at dignissimos dolore impedit ipsam nobis quasi repellendus!
+    <div className='md:max-w-6xl mx-auto py-12 '>
+        
+        <OnBoardingForm/>
+     
     </div>
   )
 }

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/general/AuthProvider";
 import NavBar from "@/components/general/Navbar";
+import { ThemeProvider } from "@/components/general/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,8 +34,19 @@ export default function RootLayout({
 
 
       >
+    <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="text-gray-3s00">
+            {children}
+            <Toaster closeButton richColors />
 
-        {children}
+
+            </main>
+          </ThemeProvider>
        
       </body>
     </html>

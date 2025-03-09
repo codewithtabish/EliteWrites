@@ -23,7 +23,7 @@ export default  function  NavBar() {
 
 
   return (
-    <Disclosure as="nav" className="border-b-2 mb-3">
+    <Disclosure as="nav" className="border-b-[1px] border- mb-3">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* Mobile Menu Button */}

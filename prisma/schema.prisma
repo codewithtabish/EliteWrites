@@ -11,11 +11,11 @@ model User {
   id            String          @id @default(uuid())
   name          String
   email         String          @unique
-  // password      String
-  categories    String[] // ✅ This stores an array of category names as strings
+  username      String?  @unique
   profilePic    String?  
   bio           String?  
-  isPremium     Boolean         @default(false) // True if user has a subscription  
+  isPremium     Boolean         @default(false)  
+  earnings      Float?          @default(0.0) // Earnings in USD  
 
   blogs         BlogPost[]
   comments      Comment[]
@@ -24,65 +24,15 @@ model User {
   bookmarks     Bookmark[]
   followers     Follower[] @relation("FollowedUsers")
   following     Follower[] @relation("FollowingUsers")
-  
+  readHistory   ReadHistory[]  // Tracks which blogs the user has read
 
-  // categories Categories[]
-  // @relation("Categories")
-  // selectedCategories Category[] @relation("UserCategories", references: [id]) // ✅ Store selected categories
+  notificationsReceived Notification[] @relation("UserNotifications")
+  notificationsSent     Notification[] @relation("SenderNotifications")
 
-
-  notificationsReceived Notification[] @relation("UserNotifications") // ✅ Fix relation
-  notificationsSent     Notification[] @relation("SenderNotifications") // ✅ Fix relation
-
-  subscription  Subscription?   // One-to-one relation
+  subscription  Subscription?
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-}
-
-
-model Category {
-  id    String  @id @default(uuid())
-  name  String  @unique
-  // users User[]  @relation("UserCategories", references: [id]) // ✅ Many-to-Many relation with users
-}
-
-model Notification {
-  id        String  @id @default(uuid())
-  
-  user      User    @relation(name: "UserNotifications", fields: [userId], references: [id]) // ✅ Receiver of notification
-  userId    String
-  
-  sender    User    @relation(name: "SenderNotifications", fields: [senderId], references: [id]) // ✅ Sender of notification
-  senderId  String
-
-  type      String  // "like", "comment", "share", "follow"
-  blogId    String? // Optional, if related to a blog
-  commentId String? // Optional, if related to a comment
-  isRead    Boolean @default(false) // Track read/unread status
-  createdAt DateTime @default(now())
-}
-
-model Subscription {
-  id         String   @id @default(uuid())
-  user       User     @relation(fields: [userId], references: [id]) // ✅ Defined here only
-  userId     String   @unique(map: "UniqueUserSubscription") 
-  status     String   @default("active") // "active", "canceled", "expired"
-  startDate  DateTime @default(now())
-  endDate    DateTime
-  createdAt  DateTime @default(now())
-}
-
-
-model Follower {
-  id          String  @id @default(uuid())
-  follower    User    @relation("FollowingUsers", fields: [followerId], references: [id])
-  followerId  String
-  following   User    @relation("FollowedUsers", fields: [followingId], references: [id])
-  followingId String
-  createdAt   DateTime @default(now())
-
-  @@unique([followerId, followingId]) // Prevent duplicate follows
 }
 
 model BlogPost {
@@ -92,8 +42,9 @@ model BlogPost {
   imageUrl   String?
   category   String
   tags       String[]
-
-  isPremium  Boolean  @default(false) // True = Requires subscription, False = Free
+  isPremium  Boolean  @default(false)  
+  earning    Float?   @default(0.0) // Earnings for this blog  
+  views      Int      @default(0) // Track total unique views  
 
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String
@@ -102,9 +53,63 @@ model BlogPost {
   likes      Like[]
   shares     Share[]
   bookmarks  Bookmark[]
+  readHistory ReadHistory[] // Tracks unique views  
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model ReadHistory {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  blog      BlogPost @relation(fields: [blogId], references: [id])
+  blogId    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, blogId]) // Prevent duplicate reads
+}
+
+model Category {
+  id    String  @id @default(uuid())
+  name  String  @unique
+}
+
+model Notification {
+  id        String  @id @default(uuid())
+  
+  user      User    @relation(name: "UserNotifications", fields: [userId], references: [id])
+  userId    String
+  
+  sender    User    @relation(name: "SenderNotifications", fields: [senderId], references: [id])
+  senderId  String
+
+  type      String  
+  blogId    String? 
+  commentId String? 
+  isRead    Boolean @default(false) 
+  createdAt DateTime @default(now())
+}
+
+model Subscription {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @unique(map: "UniqueUserSubscription") 
+  status     String   @default("active") 
+  startDate  DateTime @default(now())
+  endDate    DateTime
+  createdAt  DateTime @default(now())
+}
+
+model Follower {
+  id          String  @id @default(uuid())
+  follower    User    @relation("FollowingUsers", fields: [followerId], references: [id])
+  followerId  String
+  following   User    @relation("FollowedUsers", fields: [followingId], references: [id])
+  followingId String
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
 }
 
 model Comment {
@@ -147,7 +152,5 @@ model Bookmark {
   blogId    String
   createdAt DateTime @default(now())
 
-  @@unique([userId, blogId]) // Prevent duplicate bookmarks
+  @@unique([userId, blogId])
 }
-
-
