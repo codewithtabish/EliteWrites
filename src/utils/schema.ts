@@ -23,3 +23,42 @@ export const onboardingSchema = z.object({
 });
 
 export type OnboardingData = z.infer<typeof onboardingSchema>;
+
+
+
+export const blogSchema = z.object({
+  title: z
+    .string()
+    .min(5, "Title must be at least 5 characters long")
+    .max(100, "Title must be at most 100 characters long"),
+
+  content: z
+    .string()
+    .min(100, "Content must be at least 100 characters long"),
+
+  imageUrl: z
+    .string()
+    .url("Invalid image URL")
+    .optional(),
+
+  category: z
+    .string()
+    .min(1, "Category cannot be empty"),
+
+  tags: z
+    .array(z.string().min(1, "Tag cannot be empty"))
+    .min(1, "At least one tag is required"),
+
+  isPremium: z.boolean().default(false),
+
+ 
+
+  views: z
+    .number()
+    .min(0, "Views cannot be negative")
+    .default(0),
+
+  authorId: z.string().uuid("Invalid author ID").optional(),
+});
+
+export type BlogData = z.infer<typeof blogSchema>;
