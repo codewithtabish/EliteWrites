@@ -44,10 +44,10 @@
 
 :root {
     --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    /* --foreground: oklch(0.145 0 0); */
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
+    /* --popover: oklch(1 0 0); */
     --popover-foreground: oklch(0.145 0 0);
     --primary: oklch(0.205 0 0);
     --primary-foreground: oklch(0.985 0 0);
@@ -124,4 +124,20 @@
 
 .bg {
     background-color: #020817;
+}
+
+.rti--container {
+    background-color: #020817!important;
+}
+
+.rti--tag {
+    background: linear-gradient(135deg, #020817, #0a1124) !important;
+    color: #ffffff !important;
+    border-color: #0a1124 !important;
+    box-shadow: 0 0 4px rgba(2, 8, 23, 0.8) !important;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.bg-background {
+    background-color: #020817!important;
 }
