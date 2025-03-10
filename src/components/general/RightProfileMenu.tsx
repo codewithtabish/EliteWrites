@@ -1,4 +1,4 @@
-import { checkUserAndSaveInDB } from "@/utils/user";
+'use client'
 import { User } from "@prisma/client";
 import React from "react";
 import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
@@ -12,8 +12,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NotebookIcon, NotebookPen } from "lucide-react";
 import Link from "next/link";
 
-const RightProfileMenu = async () => {
-  const user: User | null = await checkUserAndSaveInDB();
+const RightProfileMenu =  ({user}:{user:User|null}) => {
+  // const user: User | null = await checkUserAndSaveInDB();
 
   return (
     <div className="flex flex-row items-center gap-2.5">

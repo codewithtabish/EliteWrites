@@ -2,8 +2,13 @@ import ShowToast from '@/components/general/show-toast'
 import { checkUserAndSaveInDB } from '@/utils/user'
 import { User } from '@prisma/client'
 import { redirect } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { toast } from 'sonner'
+import HeroSection from './_components/hero-section'
+import FeaturedSection from '@/components/general/feathured-section'
+import CallToAction from './_components/callto-action'
+import NavBar from '@/components/general/Navbar'
+import FeaturedBlogs from './_components/faetured-blogs'
 
 const page = async() => {
   const user:User|null=await checkUserAndSaveInDB()
@@ -15,9 +20,19 @@ const page = async() => {
   
   return (
     <div>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores delectus autem, numquam cupiditate quas ab eaque expedita modi sit quaerat nisi voluptas quae, molestiae vero aliquam quod, obcaecati libero possimus?
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores delectus autem, numquam cupiditate quas ab eaque expedita modi sit quaerat nisi voluptas quae, molestiae vero aliquam quod, obcaecati libero possimus?
-   <hr />
+      <Suspense fallback={'loading ....'}>
+      <HeroSection user={user}/>
+
+      </Suspense>
+      <Suspense fallback={'featured loading ...'}>
+      <FeaturedSection/>
+
+      </Suspense>
+      <Suspense fallback={'loading ...'}>
+      <CallToAction/>
+
+      </Suspense>
+      <FeaturedBlogs/>
 
 
     </div>
