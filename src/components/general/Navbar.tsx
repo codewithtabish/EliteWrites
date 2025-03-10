@@ -23,7 +23,7 @@ export default  function  NavBar() {
 
 
   return (
-    <Disclosure as="nav" className="border-b-[1px] border- mb-3">
+    <Disclosure as="nav" className="border-b-[1px] border-gray-700 border- mb-3">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           {/* Mobile Menu Button */}
@@ -52,8 +52,8 @@ export default  function  NavBar() {
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'text-black' : 'text-gray-700',
-                      'rounded-md px-3 py-2 text-sm font-medium'
+                      item.current ? 'text-gray-200' : 'text-gray-300',
+                      'rounded-md px-3 py-2 text-sm font-medium cursor-pointer'
                     )}
                   >
                     {item.name}
