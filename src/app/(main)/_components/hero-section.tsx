@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
 import RightProfileMenu from "@/components/general/RightProfileMenu";
 import Link from "next/link";
+import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+
 
 const contentList = [
   {
@@ -92,15 +94,18 @@ const HeroSection = ({ user }: { user: User | null }) => {
             </motion.div>
           </AnimatePresence>
           {user ? (
-            <Button className="bg cursor-pointer" variant={"outline"}>
+            <Button className="bg cursor-pointer  hover:text-gray-300 animate-in transform duration-300 ease-in-out" variant={"outline"}>
               Read More
               <span className="ml-2 text-gray-400">→</span>
             </Button>
           ) : (
-            <Button className="bg cursor-pointer" variant={"outline"}>
-              Sign In
-              <span className="ml-2 text-gray-400">→</span>
-            </Button>
+            
+         <LoginLink>
+          <Button className="cursor-pointer hover:text-white" variant={"outline"}>
+           Sign In to Read More
+
+          </Button>
+         </LoginLink>
           )}
         </div>
       </div>

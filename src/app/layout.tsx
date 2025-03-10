@@ -5,6 +5,8 @@ import { AuthProvider } from "@/components/general/AuthProvider";
 import NavBar from "@/components/general/Navbar";
 import { ThemeProvider } from "@/components/general/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ParallaxProvider } from "react-scroll-parallax";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,12 +40,17 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            {/* <ParallaxProvider> */}
+            <TooltipProvider>
+
             <main className="text-gray-3s00">
             {children}
             <Toaster closeButton richColors />
 
 
             </main>
+            </TooltipProvider>
+              {/* </ParallaxProvider>  */}
           </ThemeProvider>
        
       </body>

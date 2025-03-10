@@ -15,7 +15,7 @@ export const blogPosts = [
       views: 1800,
       earning: 25.8,
       content: "Learn various ways to turn your blog into a money-making machine.",
-      imageUrl: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d3JpdGluZ3xlbnwwfHwwfHx8MA%3D%3D",
+      imageUrl: "https://images.unsplash.com/photo-1617575521317-d2974f3b56d2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHdyaXRpbmd8ZW58MHx8MHx8fDA%3D"
     },
     {
       id: "3",
@@ -24,7 +24,7 @@ export const blogPosts = [
       views: 950,
       earning: 10.2,
       content: "Boost your blog's visibility with effective SEO strategies.",
-      imageUrl: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d3JpdGluZ3xlbnwwfHwwfHx8MA%3D%3D",
+      imageUrl: "https://images.unsplash.com/photo-1555601568-c9e6f328489b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHdyaXRpbmd8ZW58MHx8MHx8fDA%3D"
     },
     {
       id: "4",
@@ -33,7 +33,7 @@ export const blogPosts = [
       views: 720,
       earning: 8.9,
       content: "Avoid these common mistakes to improve your blogging game.",
-      imageUrl: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d3JpdGluZ3xlbnwwfHwwfHx8MA%3D%3D",
+      imageUrl: "https://images.unsplash.com/photo-1471107340929-a87cd0f5b5f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHdyaXRpbmd8ZW58MHx8MHx8fDA%3D",
     },
     {
       id: "5",
@@ -42,7 +42,7 @@ export const blogPosts = [
       views: 1300,
       earning: 12.3,
       content: "Plan your content effectively to attract and retain readers.",
-      imageUrl: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y29udGVudCUyMHBsYW5uaW5nfGVufDB8fDB8fHww",
+      imageUrl: "https://plus.unsplash.com/premium_photo-1684444605542-93725082d214?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d3JpdGVyfGVufDB8fDB8fHww",
     },
     {
       id: "6",
