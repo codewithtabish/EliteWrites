@@ -16,6 +16,7 @@ import { Iphone15ProDemo } from './_components/main-mobile'
 import CryptoTicker from './_components/crypto-tricker'
 import TopEarningUsers from './_components/top-leader-board'
 import { FAQSection } from './_components/faq-section'
+import Payment from './_components/payment'
 
 const page = async() => {
   let feedbacks: Array<any>|null = [];
@@ -80,6 +81,7 @@ const page = async() => {
       <CryptoTicker/>
 
       <TopEarningUsers/>
+      {/* <Payment/> */}
 
       <FAQSection/>
 
