@@ -11,12 +11,12 @@ model User {
   id            String          @id @default(uuid())
   name          String
   email         String          @unique
-  username      String?  @unique
+  username      String?         @unique
   profilePic    String?  
   bio           String?  
-  isPremium     Boolean         @default(false)  
-  earnings      Float?          @default(0.0) // Earnings in USD  
-  onBoardingScreen Boolean @default(false)
+  earnings      Float?          @default(0.0)  
+  canWithdraw   Boolean         @default(false)  
+  onBoardingScreen Boolean      @default(false)
   categories   String[]
 
   blogs         BlogPost[]
@@ -26,7 +26,7 @@ model User {
   bookmarks     Bookmark[]
   followers     Follower[] @relation("FollowedUsers")
   following     Follower[] @relation("FollowingUsers")
-  readHistory   ReadHistory[]  // Tracks which blogs the user has read
+  readHistory   ReadHistory[]  
 
   notificationsReceived Notification[] @relation("UserNotifications")
   notificationsSent     Notification[] @relation("SenderNotifications")
@@ -36,6 +36,7 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
 
 model BlogPost {
   id         String   @id @default(uuid())
@@ -93,15 +94,19 @@ model Notification {
   createdAt DateTime @default(now())
 }
 
+
+
 model Subscription {
   id         String   @id @default(uuid())
   user       User     @relation(fields: [userId], references: [id])
   userId     String   @unique(map: "UniqueUserSubscription") 
   status     String   @default("active") 
+  planType   PlanType @default(FREE) // Uses Enum  
   startDate  DateTime @default(now())
-  endDate    DateTime
+  endDate    DateTime?
   createdAt  DateTime @default(now())
 }
+
 
 model Follower {
   id          String  @id @default(uuid())
@@ -155,4 +160,13 @@ model Bookmark {
   createdAt DateTime @default(now())
 
   @@unique([userId, blogId])
+}
+
+
+
+
+enum PlanType {
+  FREE
+  REMINYM_YEARLY
+  LIFETIME_GENERATOR
 }

@@ -17,6 +17,8 @@ import CryptoTicker from './_components/crypto-tricker'
 import TopEarningUsers from './_components/top-leader-board'
 import { FAQSection } from './_components/faq-section'
 import Payment from './_components/payment'
+import CategoryDesignSetup from './_components/categories-design-setup'
+import Pricing from '@/components/general/pricing-plan'
 
 const page = async() => {
   let feedbacks: Array<any>|null = [];
@@ -70,6 +72,7 @@ const page = async() => {
       <Suspense fallback={'featured blog loading ...'}>
       <FeaturedBlogs/>
       </Suspense>
+      <CategoryDesignSetup/>
       <Suspense fallback={'hero video loading ...'}>
         <HeroVideoDialogDemoRightWithParallax/>
       </Suspense>
@@ -80,10 +83,16 @@ const page = async() => {
 
       <CryptoTicker/>
 
+      <Suspense fallback={'pricing loading ...'}>
+        <Pricing/>
+      </Suspense>
+
       <TopEarningUsers/>
       {/* <Payment/> */}
 
       <FAQSection/>
+
+
 
       {/* <Iphone15ProDemo/> */}
       

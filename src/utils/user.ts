@@ -88,9 +88,13 @@ export const onBoardCompletion = async (data: OnboardingData): Promise<UpdateUse
       where: { email: user.email },
       data: {
         bio: dataValidity.data.bio,
-        categories: dataValidity.data.categories,
+        // categories: dataValidity.data.categories,
         username: dataValidity.data.username,
-        onBoardingScreen:true
+        onBoardingScreen:true,
+        // categories: dataValidity.data.categories,
+        
+
+        // website: dataValidity.data.website, // Uncomment if needed
         // profilePic: dataValidity.data.profileImageUrl, // Uncomment if needed
       },
     });

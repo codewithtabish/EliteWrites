@@ -141,3 +141,35 @@
 .bg-background {
     background-color: #020817!important;
 }
+
+
+/* Custom Gradient Scrollbar */
+
+::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+}
+
+ ::-webkit-scrollbar-track {
+    background: #020817 !important;
+    /* Track color */
+}
+
+ ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #020817, #1e293b) !important;
+    /* Gradient */
+    border-radius: 4px !important;
+}
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #1e293b, #020817) !important;
+    /* Gradient on hover */
+}
+
+
+/* Hide scrollbar in Firefox */
+
+* {
+    scrollbar-width: thin !important;
+    scrollbar-color: #020817 #1e293b !important;
+}
