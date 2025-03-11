@@ -3,24 +3,31 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { blogPosts } from "@/utils/data";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { BlogApiResponse } from "@/utils/api-response";
+import FeaturedBlogsSkeleton from "@/components/skeletons/featured-blog-skeleton";
 
-const FeaturedBlogs = () => {
-    const blogs = blogPosts;
+const stripHtml = (html: string): string => {
+    return html.replace(/<[^>]+>/g, ""); // Removes HTML tags safely
+};
+
+const FeaturedBlogs = ({ response }: { response: BlogApiResponse }) => {
+    const blogs = response?.data || [];
     const [index, setIndex] = useState(0);
     const itemsPerPage = 3;
     const showLeftNav = index > 0;
     const showRightNav = index < blogs.length - itemsPerPage;
 
-    const prevSlide = () => {
-        if (index > 0) setIndex(index - 1);
-    };
+    const prevSlide = () => index > 0 && setIndex(index - 1);
+    const nextSlide = () => index < blogs.length - itemsPerPage && setIndex(index + 1);
 
-    const nextSlide = () => {
-        if (index < blogs.length - itemsPerPage) setIndex(index + 1);
-    };
+    if(!response?.success){
+        console.error("Error fetching blog data:", response.error);
+         <p>Error fetching blog data.</p>;
+         return <FeaturedBlogsSkeleton/>;
+
+    }
 
     return (
         <div className="bg-[#020817] py-12 px-6 relative">
@@ -49,7 +56,7 @@ const FeaturedBlogs = () => {
                         >
                             <Card className="bg-gray-900 p-0 text-white border-none cursor-pointer shadow-md relative overflow-hidden rounded-lg">
                                 <Image
-                                    src={blog.imageUrl}
+                                    src={blog?.imageUrl || "/blog/blog-one.jpg" }
                                     alt={blog.title}
                                     width={200}
                                     height={200}
@@ -57,15 +64,15 @@ const FeaturedBlogs = () => {
                                     priority
                                 />
                                 <span className="absolute top-2 right-2 text-white text-xs px-2 py-1 rounded">
-                                    ${blog.earning.toFixed(2)}
+                                    ${blog?.earning?.toFixed(2) ?? "0.00"}
                                 </span>
                                 <CardContent className="p-4">
-                                    <h3 className="text-lg font-semibold">{blog.title}</h3>
-                                    <p className="text-sm text-gray-400">{blog.category}</p>
+                                    <h3 className="text-lg min-h-15 max-h-14 pb-2 font-semibold">{blog?.title}</h3>
+                                    <p className="text-sm text-gray-400">{blog?.category}</p>
                                     <p className="text-xs mt-2">
-                                        {blog.content.length > 100
-                                            ? blog.content.slice(0, 100) + "..."
-                                            : blog.content}
+                                        {stripHtml(blog.content).length > 100
+                                            ? stripHtml(blog.content).slice(0, 100) + "..."
+                                            : stripHtml(blog.content)}
                                     </p>
                                 </CardContent>
                             </Card>

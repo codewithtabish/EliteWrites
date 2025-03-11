@@ -19,6 +19,8 @@ import { FAQSection } from './_components/faq-section'
 import Payment from './_components/payment'
 import CategoryDesignSetup from './_components/categories-design-setup'
 import Pricing from '@/components/general/pricing-plan'
+import FeaturedBlogServer from './_components/featured-blog-server'
+import FeaturedBlogsSkeleton from '@/components/skeletons/featured-blog-skeleton'
 
 const page = async() => {
   let feedbacks: Array<any>|null = [];
@@ -69,9 +71,10 @@ const page = async() => {
       <CallToAction/>
 
       </Suspense>
-      <Suspense fallback={'featured blog loading ...'}>
-      <FeaturedBlogs/>
+      <Suspense fallback={<FeaturedBlogsSkeleton/>}>
+        <FeaturedBlogServer/>
       </Suspense>
+   
       <CategoryDesignSetup/>
       <Suspense fallback={'hero video loading ...'}>
         <HeroVideoDialogDemoRightWithParallax/>

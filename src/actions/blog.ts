@@ -59,3 +59,47 @@ export const createBlogServerAction=async(data:BlogData)=>{
 
 
 }
+
+
+
+
+
+
+type FeaturedBlogsResponse = {
+  success: boolean;
+  message?: string;
+  data?: BlogPost[];
+  error?: Record<string, string[]>;
+};
+
+export const fetchFeaturedBlogs = async (): Promise<FeaturedBlogsResponse> => {
+  try {
+    const blogs = await prisma.blogPost.findMany({
+      where: {
+        views: { gt: 0 }, // Fetch only blogs with at least 1 view
+      },
+      orderBy: {
+        views: "desc", // Sort by most views first
+      },
+      take: 8, // Get the top 8 most viewed blogs
+    });
+
+    return {
+      success: true,
+      message: "Featured blogs fetched successfully.",
+      data: blogs,
+    };
+  } catch (error) {
+    console.error("Error fetching featured blogs:", error);
+
+    return {
+      success: false,
+      message: "Failed to fetch featured blogs.",
+      error: {
+        database: ["An error occurred while retrieving blogs."],
+      },
+    };
+  }
+};
+
+
