@@ -1,11 +1,14 @@
 import React from 'react'
 import BlogSubmissionForm from '../_components/blog-submission-form'
+import { checkUserAndSaveInDB } from '@/utils/user'
 
-const CreateBlogPage = () => {
+const CreateBlogPage = async() => {
+  const user=await checkUserAndSaveInDB()
+
   return (
     <div>
 
-        <BlogSubmissionForm/>
+        <BlogSubmissionForm user={user}/>
       
     </div>
   )

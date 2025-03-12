@@ -26,9 +26,11 @@ import { UploadDropzone } from "@/components/general/uploadthing-export";
 import CreateBlogPage from "../create/page";
 import { createBlogServerAction } from "@/actions/blog";
 import { useRouter } from "next/navigation";
+import { checkUserAndSaveInDB } from "@/utils/user";
 
-const BlogSubmissionForm = () => {
+const BlogSubmissionForm = ({user}:{user:any}) => {
       const router=useRouter()
+      const [blogLimit, setblogLimit] = useState<boolean>(false)
   
   const [submissionState, setSubmissionState] = useState<
     "idle" | "loading" | "success" | "error"
@@ -36,7 +38,14 @@ const BlogSubmissionForm = () => {
   const [submittedData, setSubmittedData] = useState<BlogData | null>(null);
   const [previewData, setpreviewData] = useState<any>();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  
+  // const user=checkUserAndSaveInDB()
+
+//  success: false, message: "You have reached the maximum number of blog posts  
+if ((user?.createdBlogs ?? 0) >= 5 && user?.userType === "FREE") {
+  // toast.warning("created blogs more")
+  // setblogLimit(true);
+  // return { success: false, message: "You have reached the maximum number of blog posts." };
+}
 
   const form = useForm<BlogData>({
     resolver: zodResolver(blogSchema),
@@ -93,7 +102,7 @@ const BlogSubmissionForm = () => {
   }
 
   return (
-    <Card className="bg border-none md:max-w-3xl mx-auto">
+    <Card className="bg border-none md:max-w-3xl mx-auto overflow-x-hidden">
       <CardContent className="flex flex-col w-full space-y-4">
         <Image src="/logo.svg" className="w-40 h-40 mx-auto" alt="logo" width={80} height={80} />
 
@@ -216,7 +225,7 @@ const BlogSubmissionForm = () => {
                           onUploadError={() => {
                             toast.error("Something went wrong. Please try again.");
                           }}
-                          className="border border-dashed border-gray-400 rounded-md p-2 w-40 h-40 flex flex-col items-center justify-center text-sm mx-auto bg-gray-600 hover:bg-gray-100 transition duration-200 cursor-pointer"
+                          className="border border-dashed border-gray-800 rounded-md p-2 w-40 h-40 flex flex-col items-center justify-center text-sm mx-auto bg-red-600 hover:bg-orange-500 transition duration-200 cursor-pointer"
                         />
 
                       )}
@@ -233,9 +242,23 @@ const BlogSubmissionForm = () => {
 
 
 
-            <Button type="submit" variant={'outline'} className="w-full text-white p-6 my-5 cursor-pointer hover:text-white" disabled={submissionState === "loading"}>
-              {submissionState === "loading" ? "Submitting..." : "Create"}
-            </Button>
+         {
+          (user?.userType=='FREE'&&user?.createdBlogs>=5)?
+          <Button className="w-full p-3 my-5 " disabled variant={'outline'}>
+            You have reached your blog limit
+          </Button>:
+             <Button type="submit" variant={'outline'} className="w-full text-white p-6 my-5 cursor-pointer hover:text-white" disabled={(submissionState === "loading"||blogLimit||(user?.userType==="FREE" && user?.createdBlogs>=5) )}
+             >
+               {
+                 (user?.userType==="FREE" && user?.createdBlogs>=5)&&""
+ 
+               }
+                                {submissionState === "loading" ? "Submitting..." : "Create"}
+ 
+               {/* {(user?.userType==="FREE" && user?.createdBlogs>=5)&& "you have reached the limit"} */}
+ 
+             </Button>
+         }
 
           </form>
 
