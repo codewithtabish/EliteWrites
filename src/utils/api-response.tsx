@@ -6,3 +6,10 @@ export interface BlogApiResponse {
   data?: BlogPost[];
   error?: Record<string, string[]>;
 };
+export interface SingleApiResponse{
+  success: boolean;
+  message?: string;
+  data?: BlogPost;
+  error?: Record<string, string[]>;
+};
+

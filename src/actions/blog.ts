@@ -1,9 +1,11 @@
 'use server'
 
 import { prisma } from "@/lib/db"
+import { generateSlug } from "@/utils/generate-blog"
 import { BlogData, blogSchema } from "@/utils/schema"
 import { checkUserAndSaveInDB } from "@/utils/user"
 import { BlogPost } from "@prisma/client"
+import { title } from "process"
 
 type creationBlogResponse={
     success:boolean,
@@ -30,9 +32,19 @@ export const createBlogServerAction=async(data:BlogData)=>{
 
         try {
                 const user = await checkUserAndSaveInDB();
+
+
+
                 if (!user?.email) {
                   return { success: false, message: "User not found" };
                 }
+                if ((user?.createdBlogs ?? 0) >= 5 && user?.userType === "FREE") {
+                  return { success: false, message: "You have reached the maximum number of blog posts." };
+              }
+              
+              
+
+                
 
                 const blogCreation=await prisma.blogPost.create({
                     data:{
@@ -43,10 +55,24 @@ export const createBlogServerAction=async(data:BlogData)=>{
                         isPremium: dataValidity?.data?.isPremium    ?? false,
                         authorId:user.id,
                         tags:dataValidity?.data?.tags ?? ["blog,"],
+                        slug:generateSlug(dataValidity?.data?.title ?? ""),
 
 
-                    }
+
+
+                    },
+                    
+                  
                 })
+
+                // Increment the user's created blogs count
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        createdBlogs: { increment: 1 }, // Increment the count by 1
+      },
+    });
+
                 return { success: true, data: blogCreation };
 
 
@@ -98,6 +124,53 @@ export const fetchFeaturedBlogs = async (): Promise<FeaturedBlogsResponse> => {
       error: {
         database: ["An error occurred while retrieving blogs."],
       },
+    };
+  }
+};
+
+
+
+
+
+
+
+type SingleBlogResponse = {
+  success: boolean;
+  message?: string;
+  data?: BlogPost;
+  error?: Record<string, string[]>;
+};
+
+export const fetchSingleBlog = async (slug: string): Promise<SingleBlogResponse> => {
+  try {
+    if(!slug){
+        return { success: false, message: "Blog post not found." };
+    }
+    const blogPost = await prisma.blogPost.findFirst({
+      where: { slug }, // Works with non-unique fields
+      include: {
+        author: {
+          select: { id: true, name: true, email: true },
+        },
+        comments: {
+          select: { id: true, content: true, createdAt: true, user: { select: { id: true, name: true } } },
+        },
+        likes: { select: { id: true, userId: true } },
+        shares: { select: { id: true, userId: true } },
+        bookmarks: { select: { id: true, userId: true } },
+      },
+    });
+
+    if (!blogPost) {
+      return { success: false, message: "Blog post not found." };
+    }
+
+    return { success: true, data: blogPost };
+  } catch (error) {
+    return {
+      success: false,
+      message: "An error occurred while fetching the blog post.",
+      error: { general: [(error as Error).message] },
     };
   }
 };

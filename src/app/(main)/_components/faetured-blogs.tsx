@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { BlogApiResponse } from "@/utils/api-response";
 import FeaturedBlogsSkeleton from "@/components/skeletons/featured-blog-skeleton";
+import Link from "next/link";
 
 const stripHtml = (html: string): string => {
     return html.replace(/<[^>]+>/g, ""); // Removes HTML tags safely
@@ -54,7 +55,7 @@ const FeaturedBlogs = ({ response }: { response: BlogApiResponse }) => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5 }}
                         >
-                            <Card className="bg-gray-900 p-0 text-white border-none cursor-pointer shadow-md relative overflow-hidden rounded-lg">
+                            <Link href={ `/blog/${blog?.slug}`} className="bg-gray-900 p-0 text-white border-none cursor-pointer shadow-md relative overflow-hidden rounded-lg">
                                 <Image
                                     src={blog?.imageUrl || "/blog/blog-one.jpg" }
                                     alt={blog.title}
@@ -75,7 +76,7 @@ const FeaturedBlogs = ({ response }: { response: BlogApiResponse }) => {
                                             : stripHtml(blog.content)}
                                     </p>
                                 </CardContent>
-                            </Card>
+                            </Link>
                         </motion.div>
                     ))}
                 </div>

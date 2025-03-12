@@ -26,6 +26,7 @@ export const checkUserAndSaveInDB = async (): Promise<User | null> => {
                 email: user?.email ?? " ",
                 profilePic: user?.picture ?? " ",
             },
+          
         });
 
 

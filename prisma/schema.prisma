@@ -17,6 +17,10 @@ model User {
   earnings      Float?          @default(0.0)  
   canWithdraw   Boolean         @default(false)  
   onBoardingScreen Boolean      @default(false)
+  createdBlogs   Int?  @default(0)
+  userType    USERTYPE @default(FREE)
+  
+
   categories   String[]
 
   blogs         BlogPost[]
@@ -43,6 +47,8 @@ model BlogPost {
   title      String
   content    String
   imageUrl   String?
+  slug      String?
+  status    BlogStausType @default(ACTIVE)
   category   String
   tags       String[]
   isPremium  Boolean  @default(false)  
@@ -166,6 +172,20 @@ model Bookmark {
 
 
 enum PlanType {
+  FREE
+  REMINYM_YEARLY
+  LIFETIME_GENERATOR
+}
+
+enum BlogStausType{
+  ACTIVE
+  DRAFT
+  ARCHIVED
+  EXPIRED
+
+}
+
+enum USERTYPE {
   FREE
   REMINYM_YEARLY
   LIFETIME_GENERATOR
