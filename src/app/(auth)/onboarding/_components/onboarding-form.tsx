@@ -61,7 +61,9 @@ const OnBoardingForm = () => {
 
   async function onSubmit(values: OnboardingData) {
     try {
-      setPending(true);
+      setPending(true)
+
+      
   
       const response = await onBoardCompletion(values);
   
