@@ -107,7 +107,7 @@ export const fetchFeaturedBlogs = async (): Promise<FeaturedBlogsResponse> => {
       orderBy: {
         views: "desc", // Sort by most views first
       },
-      take: 8, // Get the top 8 most viewed blogs
+      take: 20, // Get the top 8 most viewed blogs
     });
 
     return {
